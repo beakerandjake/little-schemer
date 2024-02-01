@@ -38,13 +38,27 @@
                 (multirember (car lat) 
                   (cdr lat))))))))
 
-; is at least one element from set1 present in set2?
+; is every element from set1 present in set2?
 (define subset? 
   (lambda (set1 set2)
     (cond
       ((null? set1) #t)
-      ((member? (car set1) set2)
-       (subset? (cdr set1) set2))
-      (else #f))))
-      
+      (else
+        (and (member? (car set1) set2)
+          (subset? (cdr set1) set2))))))
+
+; are the two sets equal?  
+(define eqset?
+  (lambda (set1 set2)
+    (and (subset? set1 set2)
+      (subset? set2 set1))))
+
+; is at least one atom in set1 present in set2?
+(define intersect?
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) #f)
+      (else (or (member? (car set1) set2)
+              (intersect?
+                (cdr set1) set2))))))
 
