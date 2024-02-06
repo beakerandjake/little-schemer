@@ -1,3 +1,5 @@
+; CH 7 - Friends and Relations
+
 ; is the atom included in the lat?
 (define member?
   (lambda (a lat)
@@ -71,6 +73,39 @@
        (cons (car set1) 
          (intersect (cdr set1) set2)))
       (else (intersect (cdr set1) set2)))))
+
+; returns the elements present in both or either sets.
+(define union
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) set2)
+      ((member? (car set1) set2)
+       (union (cdr set1) set2))
+      (else (cons (car set1)
+              (union (cdr set1) set2))))))
+
+; returns the elements present in set1 but not set2
+(define difference 
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) (quote ()))
+      ((member? (car set1) set2)
+       (difference (cdr set1) set2))
+      (else (cons (car set1) 
+              (difference (cdr set1) set2))))))
+
+; returns the elements present in all sets
+(define intersectall
+  (lambda (l-set)
+    (cond
+      ((null? (cdr l-set)) (car l-set))
+       (else (intersect (car l-set)
+               (intersectall (cdr l-set)))))))
+
+
+
+
+
 
 
 
