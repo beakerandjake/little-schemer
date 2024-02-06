@@ -62,3 +62,15 @@
               (intersect?
                 (cdr set1) set2))))))
 
+; returns the elements in set1 present in set2
+(define intersect
+  (lambda (set1 set2)
+    (cond
+      ((null? set1) (quote ()))
+      ((member? (car set1) set2) 
+       (cons (car set1) 
+         (intersect (cdr set1) set2)))
+      (else (intersect (cdr set1) set2)))))
+
+
+
