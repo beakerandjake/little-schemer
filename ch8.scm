@@ -34,3 +34,26 @@
       ((or (atom? s1) (atom? s2))
        #f)
       (else (eqlist? s1 s2)))))
+
+
+; returns a function which compares an x value to the a value
+(define eq?-c
+  (lambda (a)
+    (lambda (x)
+      (eq? x a))))
+
+
+; returns a rember function which compares elements using the test? function.
+(define rember-f
+  (lambda (test?)
+    (lambda (a l)
+      (cond
+        ((null? l) '())
+        ((test? a (car l)) (cdr l))
+        (else (cons (car l)
+                    ((rember-f test?) a
+                                      (cdr l))))))))
+      
+
+      
+    
