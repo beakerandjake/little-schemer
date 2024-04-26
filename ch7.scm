@@ -1,3 +1,5 @@
+#lang sicp
+
 ; CH 7 - Friends and Relations
 
 ; is the atom included in the lat?
@@ -101,11 +103,3 @@
       ((null? (cdr l-set)) (car l-set))
        (else (intersect (car l-set)
                (intersectall (cdr l-set)))))))
-
-
-
-
-
-
-
-
