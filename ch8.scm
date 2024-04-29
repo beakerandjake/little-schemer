@@ -99,8 +99,18 @@
 
 ; inserts the new value to the left of the first occurrence of the old value
 (define insertL
-  (insert-g seqL))
+  (insert-g
+   (lambda (new old l)
+    (cons new (cons old l)))))
 
 ; inserts the new value to the right of the first occurrence of the old value
 (define insertR
-  (insert-g seqR))
+  (insert-g
+   (lambda (new old l)
+     (cons old (cons new l)))))
+
+; replaces first instance of old with new in the list.
+(define substr
+  (insert-g
+   (lambda (new old l)
+     (cons new l))))
