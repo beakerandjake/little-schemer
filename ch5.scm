@@ -2,6 +2,8 @@
 (require "ch1.scm" "ch4.scm")
 (provide eqlist? equal?)
 
+; CH 5 - *Oh My Gawd*: It's Full of Stars
+
 ; returns true if the two arguments are lists and are equal
 (define eqlist?
   (lambda (l1 l2)

@@ -1,6 +1,8 @@
 #lang scheme
 (require "ch5.scm")
 
+; CH 8 - Lambda The Ultimate
+
 ; returns a rember function which compares elements using the test? function.
 (define rember-f
   (lambda (test?)

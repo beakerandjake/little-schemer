@@ -2,6 +2,8 @@
 (require "ch1.scm")
 (provide eqan?)
 
+; CH 4 - Numbers Game
+
 ; returns true if the two arguments are the same atom
 (define eqan?
   (lambda (a1 a2)
