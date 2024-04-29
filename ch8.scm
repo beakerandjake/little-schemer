@@ -1,45 +1,5 @@
-#lang sicp
-
-; returns true if x is an atom
-(define atom?
-  (lambda (x)
-    (and (not (pair? x)) (not (null? x)))))
-
-; returns true if the two arguments are the same atom
-(define eqan?
-  (lambda (a1 a2)
-    (cond
-      ((and (number? a1) (number? a2))
-       (= a1 a2))
-      ((or (number? a1) (number? a2))
-       #f)
-      (else (eq? a1 a2)))))
-
-; returns true if the two arguments are lists and are equal
-(define eqlist?
-  (lambda (l1 l2)
-    (cond
-      ((and (null? l1) (null? l2)) #t)
-      ((or (null? l1) (null? l2)) #f)
-      (else
-       (and (equal? (car l1) (car l2))
-            (eqlist? (cdr l1) (cdr l2)))))))
-
-; returns true if s1 and s2 are the same atom, or if they are the same list. 
-(define equal?
-  (lambda (s1 s2)
-    (cond
-      ((and (atom? s1) (atom? s2))
-       (eqan? s1 s2))
-      ((or (atom? s1) (atom? s2))
-       #f)
-      (else (eqlist? s1 s2)))))
-
-; returns a function which compares an x value to the a value
-(define eq?-c
-  (lambda (a)
-    (lambda (x)
-      (eq? x a))))
+#lang scheme
+(require "ch5.scm")
 
 ; returns a rember function which compares elements using the test? function.
 (define rember-f
@@ -51,6 +11,12 @@
         (else (cons (car l)
                     ((rember-f test?) a
                                       (cdr l))))))))
+
+; returns a function which compares an x value to the a value
+(define eq?-c
+  (lambda (a)
+    (lambda (x)
+      (eq? x a))))
 
 ; returns an insertL function which compares elements using the test? function.
 ; the insertL function inserts the new value to the left of the first occurrence of the old value
@@ -76,16 +42,6 @@
         (else (cons (car l)
                     ((insertR-f test?) new old (cdr l))))))))
 
-; conses the first arg onto the result of consing the second arg onto the third arg
-(define seqL
-  (lambda (new old l)
-    (cons new (cons old l))))
-
-; conses the second arg onto the result of consing the first arg onto the third arg
-(define seqR
-  (lambda (new old l)
-    (cons old (cons new l))))
-
 ; returns a functinon which uses seq to cons the new value to the first occurance of the old value in l.
 (define insert-g
   (lambda (seq)
@@ -110,7 +66,18 @@
      (cons old (cons new l)))))
 
 ; replaces first instance of old with new in the list.
-(define substr
+(define subst
   (insert-g
    (lambda (new old l)
      (cons new l))))
+
+; seq function which removes the current element from the array.
+(define seqrem
+  (lambda (new old l)
+    l))
+
+; removes the first occurence fo the item in the list
+(define rember
+  (lambda (a l)
+    ((insert-g seqrem) #f a l)))
+

@@ -1,4 +1,5 @@
-#lang sicp
+#lang scheme
+(#%provide union)
 
 ; CH 7 - Friends and Relations
 
