@@ -181,5 +181,50 @@
       ((test? (car lat))
         (multiremberT test? (cdr lat)))
       (else (cons (car lat) (multiremberT test? (cdr lat)))))))
-   
+
+; collects atoms which are not equal to a into newlat and atoms which are equal to a into seen
+; the final value of the function is the result of (col newlat seen)
+(define multirember&co
+  (lambda (a lat col)
+    (cond
+      ((null? lat) 
+        (col '() '()))
+      ((eq? (car lat) a)
+        (multirember&co a 
+          (cdr lat)
+          (lambda (newlat seen)
+            (col newlat
+              (cons (car lat) seen)))))
+      (else
+        (multirember&co a
+          (cdr lat)
+          (lambda (newlat seen)
+            (col (cons (car lat) newlat) seen)))))))
+
+; returns true if y is an empty list
+(define a-friend
+  (lambda (x y)
+    (null? y)))
+
+; will always return false
+(define new-friend
+  (lambda (newlat seen)
+    (a-friend newlat
+      (cons 'tuna seen))))
+
+; returns true if seen is an empty list
+(define latest-friend
+  (lambda (newlat seen)
+    (a-friend (cons 'and newlat) seen)))
+
+; returns the length of newlat
+(define last-friend
+  (lambda (newlat seen)
+    (length newlat)))
+
+; returns the lengths of the newlat and seen list
+(define count-friend
+  (lambda (newlat seen)
+    (list (length newlat) (length seen))))
+
 
