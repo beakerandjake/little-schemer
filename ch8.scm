@@ -1,5 +1,3 @@
-#lang scheme
-
 ; CH 8 - Lambda the Ultimate
 
 ; returns true if x is an atom
@@ -126,4 +124,62 @@
 (define rember
   (lambda (a l)
     ((insert-g seqrem) #f a l)))
+
+; returns the function which maps to the atom
+(define atom-to-function
+  (lambda (x)
+    (cond
+      ((eq? x 'o+) +)
+      ((eq? x 'o*) *)
+      ((eq? x 'o-) -)
+      ((eq? x 'o^) expt)
+      (else #f))))
+
+; evaluates the expression and returns the value.
+(define value
+  (lambda (nexp)
+    (cond
+      ((atom? nexp) nexp)
+      (else
+       ((atom-to-function (operator nexp))
+                          (value (1st-sub-exp nexp))
+                          (value (2nd-sub-exp nexp)))))))
+
+; given an expression like (op exp1 exp2) reutrns op
+(define operator car)
+
+; given an expression like (op exp1 exp2) returns exp1
+(define 1st-sub-exp cadr)
+
+; given an expression like (op exp1 exp2) returns exp2
+(define 2nd-sub-exp caddr)
+
+; removes each occurance of a in the list.
+(define multirember
+  (lambda (a lat)
+    (cond
+      ((null? lat) '())
+      ((eq? a (car lat)) 
+        (multirember a (cdr lat)))
+      (else (cons (car lat) (multirember a (cdr lat)))))))
+
+; returns a multirember function which uses the test? predicate.
+(define multirember-f
+  (lambda (test?)
+    (lambda (a lat)
+      (cond
+        ((null? lat) '())
+        ((test? a (car lat))
+          (multirember a (cdr lat)))
+        (else (cons (car lat) (multirember a (cdr lat))))))))
+
+; remove each element which satisfies the test? predicate
+(define multiremberT
+  (lambda (test? lat)
+    (cond
+      ((null? lat) '())
+      ((test? (car lat))
+        (multiremberT test? (cdr lat)))
+      (else (cons (car lat) (multiremberT test? (cdr lat)))))))
+   
 
